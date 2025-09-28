@@ -167,6 +167,13 @@ export default defineConfig(({ command, mode }) => {
             [VITE_APP_PROXY_PREFIX]: {
               target: VITE_SERVER_BASEURL,
               changeOrigin: true,
+              secure: false, // 是否支持https
+              bypass(req, res, options: any) {
+                const proxyURL = options.target + options.rewrite(req.url)
+                console.log('proxyURL', proxyURL)
+                req.headers['x-req-proxyURL'] = proxyURL // 设置未生效
+                res.setHeader('x-req-proxyURL', proxyURL) // 设置响应头可以看到
+              },
               // 后端有/api前缀则不做处理，没有则需要去掉
               rewrite: path => path.replace(new RegExp(`^${VITE_APP_PROXY_PREFIX}`), ''),
             },

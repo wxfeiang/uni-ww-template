@@ -13,6 +13,7 @@ store.use(
 
 export default store
 
+export * from './system'
 // 模块统一导出
 export * from './theme'
 export * from './token'

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 // code here
-import RequestComp from './components/request.vue'
 
 definePage({
   style: {
@@ -20,9 +19,7 @@ definePage({
     <view class="text-blue-500">
       分包页面里面的components示例
     </view>
-    <view>
-      <RequestComp />
-    </view>
+    <view />
   </view>
 </template>
 

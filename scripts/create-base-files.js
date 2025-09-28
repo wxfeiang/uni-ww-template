@@ -92,7 +92,7 @@ const manifest = {
   },
   'quickapp': {},
   'mp-weixin': {
-    appid: 'wxa2abb91f64032a2b',
+    appid: 'wxab8154567766b497',
     setting: {
       urlCheck: false,
       es6: true,

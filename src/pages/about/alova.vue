@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useRequest } from 'alova/client'
-import { foo } from '@/api/foo-alova'
+
+import { captchaConfig, userInfo } from '@/api/system'
 
 definePage({
   style: {
@@ -8,42 +9,35 @@ definePage({
   },
 })
 
-const initialData = undefined
+const { loading: loading2, data: data2, send: send2 } = useRequest(captchaConfig, {
 
-const { loading, data, send } = useRequest(foo, {
-  initialData,
-  immediate: true,
+  immediate: false,
+}).onComplete((res) => {
+  console.log('🍅', res)
 })
-console.log(data)
-function reset() {
-  data.value = initialData
+
+const { send: send3 } = useRequest(userInfo, {
+
+  immediate: false,
+}).onSuccess((res) => {
+  console.log('🍅', res)
+}).onError((err) => {
+  console.log('🍅', err)
+})
+
+function wwjm() {
+  console.log('🍅')
+  send2()
 }
 </script>
 
 <template>
   <view class="p-6 text-center">
-    <button type="primary" size="mini" class="my-6 w-160px" @click="send">
-      发送请求
+    <button type="default" size="mini" class="my-6 w-160px" @click="wwjm">
+      万维测试加密请求
     </button>
-    <view class="h-16">
-      <view v-if="loading">
-        loading...
-      </view>
-      <block v-else>
-        <view class="text-xl">
-          请求数据如下
-        </view>
-        <view class="text-green leading-8">
-          {{ JSON.stringify(data) }}
-        </view>
-      </block>
-
-      <view class="text-red">
-        {{ data?.id }}
-      </view>
-    </view>
-    <button type="default" size="mini" class="my-6 w-160px" @click="reset">
-      重置数据
+    <button type="default" size="mini" class="my-6 w-160px" @click="send3">
+      万维测试加密请求
     </button>
   </view>
 </template>
