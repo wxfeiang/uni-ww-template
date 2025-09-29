@@ -1,7 +1,7 @@
 {
   "name": "uni-ww-template",
   "type": "module",
-  "version": "3.16.3",
+  "version": "1.0.1",
   "unibest-version": "3.16.3",
   "update-time": "2025-09-16",
   "packageManager": "pnpm@10.10.0",
