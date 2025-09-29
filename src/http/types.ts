@@ -1,4 +1,4 @@
-import type { ApiServiceName } from './tools'
+import type { ApiService } from './tools/server'
 
 /**
  * 在 uniapp 的 RequestOptions 和 IUniUploadFileOptions 基础上，添加自定义参数
@@ -61,6 +61,6 @@ export interface Meta<T = unknown> {
   Tips?: boolean // 是否显示  /全局提示 (默认显示: false)  true 不在全局显示
   tipsType?: 'toast' | 'model' // 提示框类型(默认toast)
   initParams?: boolean // 是否需要初始参数
-  otherServiceUrl?: ApiServiceName // 其他服务地址 // 默认第一服务地址
+  otherServiceUrl?: ApiService // 其他服务地址 // 默认第一服务地址
   headers?: Record<string, any> // 其他请求头 (alova 参数未知也有headers)
 }

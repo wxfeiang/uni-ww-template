@@ -47,24 +47,19 @@ function getErrorMessage(status: number): string {
  * @param {number|string} status 状态码
  * @returns {string} 错误信息
  */
+/**
+ * 根据HTTP状态码返回对应的错误信息
+ * @param status - HTTP状态码，可以是数字或字符串形式
+ * @returns 返回格式化的错误信息字符串
+ */
 export function ShowMessage(status: number | string): string {
-  const statusCode = Number(status)
+  const statusCode = Number(status) // 将输入的状态码转换为数字类型
 
-  // 验证输入是否为有效的 HTTP 状态码
+  // 验证输入是否为有效的 HTTP 状态码（100-599之间）
   if (Number.isNaN(statusCode) || statusCode < 100 || statusCode >= 600) {
     return `未知错误(${status})，请检查网络或联系管理员！`
   }
 
-  const message = getErrorMessage(statusCode)
+  const message = getErrorMessage(statusCode) // 获取对应状态码的错误信息
   return `${message}，请检查网络或联系管理员！`
-}
-
-export function showToast(message: string) {
-  uni.showToast({
-    title: message,
-    icon: 'none',
-  })
-  const error = new Error(message)
-  Object.assign(error, { message })
-  return Promise.reject(error)
 }

@@ -106,7 +106,7 @@ class Methods {
    * @returns 是否加密
    */
   private shouldEncryptParam(url: string): boolean {
-    const expandMap = this.filterData.expandMap
+    const expandMap = this.filterData.expandMap || {}
     if (Object.keys(expandMap).length === 0) {
       return true
     }

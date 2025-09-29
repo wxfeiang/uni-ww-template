@@ -1,6 +1,6 @@
 import type { Meta } from '@/http/types'
 import { http } from '@/http/alova'
-import { ApiServiceName } from '@/http/tools'
+import { ApiService } from '@/http/tools/server'
 
 export interface IFoo {
   id: number
@@ -9,7 +9,7 @@ export interface IFoo {
 
 export function captchaConfig() {
   const meta: Partial<Meta> = {
-    otherServiceUrl: ApiServiceName.SECONDARY,
+    ignorEencrypt: true,
   }
 
   return http.Post<IFoo>('/captcha/config', { id: 1 }, {
@@ -17,7 +17,21 @@ export function captchaConfig() {
       b: 2,
       test: 13,
     },
-    // meta,
+    meta,
+  })
+}
+export function test() {
+  const meta: Partial<Meta> = {
+    otherServiceUrl: ApiService.SECONDARY,
+    ignorEencrypt: true,
+  }
+
+  return http.Post<IFoo>('/test', { id: 1 }, {
+    params: {
+      b: 2,
+      test: 13,
+    },
+    meta,
   })
 }
 export function userInfo() {
