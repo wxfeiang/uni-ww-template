@@ -1,0 +1,23 @@
+{
+  "github": {
+    "release": false
+  },
+  "git": {
+    "commitMessage": "release: v${version}"
+  },
+  "npm": {
+    "publish": false
+  },
+  "hooks": {
+    "after:bump": "echo 更新版本成功"
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "angular",
+      "infile": "CHANGELOG.md",
+      "header": "# 项目更新日志",
+      "ignoreRecommendedBump": true,
+      "strictSemVer": true
+    }
+  }
+}
