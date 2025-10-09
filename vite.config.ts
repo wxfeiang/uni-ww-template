@@ -25,7 +25,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig, loadEnv } from 'vite'
 import ViteRestart from 'vite-plugin-restart'
 import openDevTools from './scripts/open-dev-tools'
-import { proxyServer } from './scripts/proxy-server'
+import { proxyServer } from './src/http/tools/proxyServer'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -49,12 +49,10 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, path.resolve(process.cwd(), 'env'))
   const {
     VITE_APP_PORT,
-    VITE_SERVER_BASEURL,
     VITE_APP_TITLE,
     VITE_DELETE_CONSOLE,
     VITE_APP_PUBLIC_BASE,
     VITE_APP_PROXY_ENABLE,
-    VITE_APP_PROXY_PREFIX,
   } = env
   console.log('环境变量 env -> ', env)
 
@@ -163,7 +161,7 @@ export default defineConfig(({ command, mode }) => {
       hmr: true,
       port: Number.parseInt(VITE_APP_PORT, 10),
       // 仅 H5 端生效，其他端不生效（其他端走build，不走devServer)
-      proxy: JSON.parse(VITE_APP_PROXY_ENABLE) ? proxyServer() : undefined,
+      proxy: JSON.parse(VITE_APP_PROXY_ENABLE) ? proxyServer(env) : undefined,
     },
     esbuild: {
       drop: VITE_DELETE_CONSOLE === 'true' ? ['console', 'debugger'] : ['debugger'],
