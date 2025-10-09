@@ -1,7 +1,13 @@
 
----
+## 基础模板
+- 包含项目初始化
+- 包含基础配置请求加密
+- （全局弹框提示功能。。。）
 
-注意旧的地址 [codercup](https://github.com/codercup/unibest) 我进不去了，使用新的 [feige996](https://github.com/feige996/unibest)。PR和 issue 也请使用新地址，否则无法合并。
+
+
+
+---
 
 ## 平台兼容性
 
@@ -36,6 +42,15 @@
 - web平台： `pnpm build:h5`，打包后的文件在 `dist/build/h5`，可以放到web服务器，如nginx运行。如果最终不是放在根目录，可以在 `manifest.config.ts` 文件的 `h5.router.base` 属性进行修改。
 - weixin平台：`pnpm build:mp`, 打包后的文件在 `dist/build/mp-weixin`，然后通过微信开发者工具导入，并点击右上角的“上传”按钮进行上传。
 - APP平台：`pnpm build:app`, 然后打开 `HBuilderX`，导入刚刚生成的`dist/build/app` 文件夹，选择发行 - APP云打包。(如果是 `安卓` 和 `鸿蒙` 平台，则不用这个方式，可以把整个unibest项目导入到hbx，通过hbx的菜单来发行到对应的平台。)
+
+## 请求相关
+
+- 已经兼容了alova 配置请求 ，alova 配置参考：[https://alova.js.org/zh-CN](https://alova.js.org/zh-CN)
+- 兼容了加密方式
+- 兼容了请求拦截器
+- 多服务器配置，主要是H5端，小程序端不需要配置 ， 务必遵循规定的环境变量
+
+
 
 
 
