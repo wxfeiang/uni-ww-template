@@ -59,7 +59,6 @@ export interface Meta<T = unknown> {
   loading?: boolean // 是否显示全局loading 默认不显示
   loadingText?: string // 全局loading文字
   Tips?: boolean // 是否显示  /全局提示 (默认显示: false)  true 不在全局显示
-  tipsType?: 'toast' | 'model' // 提示框类型(默认toast)
   initParams?: boolean // 是否需要初始参数
   otherServiceUrl?: ApiService // 其他服务地址 // 默认第一服务地址
   headers?: Record<string, any> // 其他请求头 (alova 参数未知也有headers)

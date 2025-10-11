@@ -1,7 +1,7 @@
 import type { IResponse } from '../types'
 import dayjs from 'dayjs'
 
-import { useGlobalToast, useSystemStore, useUserStore } from '@/store'
+import { useGlobalLoading, useGlobalToast, useSystemStore, useUserStore } from '@/store'
 import { WwCryptUtils } from '@/utils/wwCryptUtils'
 import { ContentTypeEnum, ResultEnum, ShowMessage } from './enum'
 import { resolveApiUrl } from './server'
@@ -9,18 +9,27 @@ import { resolveApiUrl } from './server'
 /**
  * 显示提示信息并返回一个拒绝的Promise
  * @param message - 要显示的提示信息内容
+ * @param showToast  - 是否显示提示信息(默认全局显示)
  * @returns 返回一个被拒绝的Promise，拒绝值为包含错误信息的Error对象
  */
-export function showToast(message: string) {
-  uni.showToast({
-    title: message,
-    icon: 'none',
-  })
-  const error = new Error(message)
-  Object.assign(error, { message })
-  return Promise.reject(error)
+export function showGloablToast(message: string, showToast?: boolean) {
+  if (!showToast) {
+    const { error } = useGlobalToast()
+    error({ msg: message })
+  }
+  const errorMessage = new Error(message)
+  Object.assign(errorMessage, { message })
+  return Promise.reject(errorMessage)
 }
 
+/**
+ * 显示提示信息并返回一个拒绝的Promise 使用全局弹框 打开/关闭全局loading 显示
+ * @param message - 要显示的提示信息内容
+ */
+export function showGlobalLoading(message: string, show: boolean) {
+  const { loading, close } = useGlobalLoading()
+  show ? loading(message ?? '加载中...') : close()
+}
 /**
  * 创建UUID（Universally Unique Identifier）的函数
  * @param message - 用于生成UUID的输入消息字符串
@@ -54,6 +63,9 @@ export function generateUUID() {
  * @param {object} method - 请求方法对象，包含请求配置、参数等信息
  */
 export function beforeRequest(method) {
+  if (!method.meta?.loading) {
+    showGlobalLoading(method.meta?.loadingText, true)
+  }
   const CryptUtils = new WwCryptUtils(useSystemStore())
   // 设置默认 Content-Type
   method.config.headers = {
@@ -131,8 +143,9 @@ export function beforeRequest(method) {
  * @param {object} method - 请求方法对象，包含请求配置、返回信息解密
  */
 export function afterResponse(response, method) {
-  const globalToast = useGlobalToast()
-  globalToast.success('dsd')
+  if (!method.meta?.loading) {
+    showGlobalLoading(method.meta?.loadingText, false)
+  }
 
   console.info('afterResponse:', response)
   const CryptUtils = new WwCryptUtils(useSystemStore())
@@ -152,7 +165,7 @@ export function afterResponse(response, method) {
   // 处理 HTTP 状态码错误
   if (statusCode !== 200) {
     const errorMessage = ShowMessage(statusCode) || `HTTP请求错误[${statusCode}]`
-    return showToast(errorMessage)
+    return showGloablToast(errorMessage, config.meta?.Tips)
   }
   // 处理业务逻辑
   const { data } = rawData as IResponse
@@ -166,13 +179,13 @@ export function afterResponse(response, method) {
     return data
   }
   if (data?.code && data?.code * 1 !== ResultEnum.Success200) {
-    return showToast(data.msg)
+    return showGloablToast(data.msg, config.meta?.Tips)
   }
 
   // 加密 data
   const resEencryptData = CryptUtils.resultDecryption(response)
   if (resEencryptData?.code !== ResultEnum.Success200) {
-    return showToast(data?.msg || '请求失败!')
+    return showGloablToast(data?.msg || '请求失败!', config.meta?.Tips)
   }
 
   return resEencryptData
