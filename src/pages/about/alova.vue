@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { useRequest } from 'alova/client'
-
 import { captchaConfig, userInfo } from '@/api/system'
 
 definePage({

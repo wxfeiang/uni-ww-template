@@ -1,7 +1,7 @@
 import type { IResponse } from '../types'
 import dayjs from 'dayjs'
 
-import { useSystemStore, useUserStore } from '@/store'
+import { useGlobalToast, useSystemStore, useUserStore } from '@/store'
 import { WwCryptUtils } from '@/utils/wwCryptUtils'
 import { ContentTypeEnum, ResultEnum, ShowMessage } from './enum'
 import { resolveApiUrl } from './server'
@@ -131,6 +131,9 @@ export function beforeRequest(method) {
  * @param {object} method - 请求方法对象，包含请求配置、返回信息解密
  */
 export function afterResponse(response, method) {
+  const globalToast = useGlobalToast()
+  globalToast.success('dsd')
+
   console.info('afterResponse:', response)
   const CryptUtils = new WwCryptUtils(useSystemStore())
 
@@ -152,7 +155,7 @@ export function afterResponse(response, method) {
     return showToast(errorMessage)
   }
   // 处理业务逻辑
-  const { code, message, data } = rawData as IResponse
+  const { data } = rawData as IResponse
   // 整体数据
   if (meta?.resAll) {
     return response
@@ -171,6 +174,6 @@ export function afterResponse(response, method) {
   if (resEencryptData?.code !== ResultEnum.Success200) {
     return showToast(data?.msg || '请求失败!')
   }
-  // 处理成功响应，返回业务数据
+
   return resEencryptData
 }

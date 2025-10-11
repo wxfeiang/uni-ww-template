@@ -154,3 +154,13 @@ export const isDoubleTokenMode = import.meta.env.VITE_AUTH_MODE === 'double'
  * 通常为 /pages/index/index
  */
 export const HOME_PAGE = `/${pages.find(page => page.type === 'home')?.path || pages[0].path}`
+
+/**
+ * 获取当前页面路径
+ * @returns 当前页面路径
+ */
+export function getCurrentPath() {
+  const pages = getCurrentPages()
+  const currentPage = pages[pages.length - 1]
+  return currentPage.route || ''
+}
