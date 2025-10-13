@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useRequest } from 'alova/client'
 import { captchaConfig, userInfo } from '@/api/system'
 
 definePage({
@@ -11,20 +12,18 @@ const { loading: loading2, data: data2, send: send2 } = useRequest(captchaConfig
 
   immediate: false,
 }).onComplete((res) => {
-  console.log('🍅', res)
+  console.log('over', res.data)
 })
 
-const { send: send3 } = useRequest(userInfo, {
-
+const { send: send3, data: data3 } = useRequest(data => userInfo(data), {
   immediate: false,
 }).onSuccess((res) => {
-  console.log('🍅', res)
+  console.log('onsuccness', res.data)
 }).onError((err) => {
-  console.log('🍅', err)
+  console.log('error', err)
 })
 
 function wwjm() {
-  console.log('🍅')
   send2()
 }
 </script>
@@ -32,11 +31,15 @@ function wwjm() {
 <template>
   <view class="p-6 text-center">
     <button type="default" size="mini" class="my-6 w-160px" @click="wwjm">
-      万维测试加密请求
+      系统初始化
     </button>
     <button type="default" size="mini" class="my-6 w-160px" @click="send3">
-      万维测试加密请求
+      加密请求数据
     </button>
+  </view>
+  <view>
+    {{ data2 }}
+    {{ data3?.appKey }}
   </view>
 </template>
 

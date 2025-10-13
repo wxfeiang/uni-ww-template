@@ -63,17 +63,18 @@ export function generateUUID() {
  * @param {object} method - 请求方法对象，包含请求配置、参数等信息
  */
 export function beforeRequest(method) {
-  if (!method.meta?.loading) {
+  const { config } = method
+  if (!config.meta?.loading) {
     showGlobalLoading(method.meta?.loadingText, true)
   }
   const CryptUtils = new WwCryptUtils(useSystemStore())
   // 设置默认 Content-Type
-  method.config.headers = {
+  config.headers = {
     ContentType: ContentTypeEnum.JSON,
     Accept: 'application/json, text/plain, */*',
     ...method.config.headers,
   }
-  const { config } = method
+
   // 处理动态域名多服务
   method.baseURL = resolveApiUrl(config.meta?.otherServiceUrl)
   // 处理token
@@ -188,5 +189,32 @@ export function afterResponse(response, method) {
     return showGloablToast(data?.msg || '请求失败!', config.meta?.Tips)
   }
 
-  return resEencryptData
+  return resEencryptData.data
+}
+
+/**
+ *  判断是否过期了
+ * @returns isExpired   boolean
+ */
+export function isExpired(error) {
+  console.log('🍒======>>>>', error)
+  showGlobalLoading(error, false)
+  // 当服务端返回401时，表示token过期，需要刷新token
+  return error.response?.status === ResultEnum.Unauthorized
+}
+
+/**
+ * refreshToken 刷新token
+ * @returns void
+ */
+
+export function refreshToken() {
+  // // 获取新的token
+  // const token = ''
+  // // 更新token
+  // const userStore = useUserStore()
+  // userStore.setToken(token)
+  // // 重试请求
+  // // retryRequest()
+  console.log('====>>', '刷新token')
 }

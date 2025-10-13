@@ -4,8 +4,7 @@ import { createAlova } from 'alova'
 import { createServerTokenAuthentication } from 'alova/client'
 import VueHook from 'alova/vue'
 import { LOGIN_PAGE } from '@/router/config'
-import { afterResponse, beforeRequest } from './tools'
-import { ResultEnum } from './tools/enum'
+import { afterResponse, beforeRequest, isExpired } from './tools'
 
 /**
  * 创建请求实例
@@ -30,12 +29,8 @@ const { onAuthRequired, onResponseRefreshToken } = createServerTokenAuthenticati
   // refreshToken ,无感刷新token
   refreshTokenOnError: {
     // 响应时触发，可获取到error和method，并返回boolean表示token是否过期
-    // 当服务端返回401时，表示token过期
-
-    isExpired: (error) => {
-      console.log('🍒======>>>>', error)
-      return error.response?.status === ResultEnum.Unauthorized
-    },
+    // 当服务端返回401时，表示token过期，需要刷新token
+    isExpired: error => isExpired(error),
     handler: async () => {
       try {
         // await authLogin();
