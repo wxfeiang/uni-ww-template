@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useGlobalLoading, useGlobalMessage, useGlobalToast, useThemeStore } from '@/store'
+import { useGlobalLoading, useGlobalMessage, useGlobalPopup, useGlobalToast, useThemeStore } from '@/store'
 import { safeAreaInsets } from '@/utils/systemInfo'
 
 defineOptions({
@@ -8,6 +8,7 @@ defineOptions({
 const globalToast = useGlobalToast()
 const globalLoading = useGlobalLoading()
 const globalMessage = useGlobalMessage()
+const globalPopup = useGlobalPopup()
 definePage({
   // 使用 type: "home" 属性设置首页，其他页面不需要设置，默认为page
   type: 'home',
@@ -49,6 +50,10 @@ function globaMessage() {
 
   })
 }
+function globalPopupClick() {
+  console.log('🥘[globalPopupClick]:')
+  globalPopup.show({ showType: 1 })
+}
 onLoad(() => {
   console.log('测试 uni API 自动引入: onLoad')
 })
@@ -65,6 +70,9 @@ onLoad(() => {
       </view>
       <view clas="bg-red-100 p-2 rounded-lg" @click="globaMessage">
         点击测试全局弹出组建 message
+      </view>
+      <view clas="bg-red-100 p-2 rounded-lg" @click="globalPopupClick">
+        打开自定义全局弹框
       </view>
     </view>
 

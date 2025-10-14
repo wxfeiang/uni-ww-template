@@ -31,5 +31,6 @@ onShow(() => {
     <Global-Toast />
     <Global-Loading />
     <Global-Message />
+    <Global-Popup />
   </wd-config-provider>
 </template>

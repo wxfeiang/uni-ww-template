@@ -61,7 +61,7 @@ export const navigateToInterceptor = {
         console.log('🍞[path]:', path)
         console.log('//TODO: 这里处理了登录成功后的逻辑，比如再次拦截验证---')
         if (judgeIsExcludePath(path, 'excludeShiMingPath')) {
-          console.log('🥝')
+          console.log('🥝, 这里要实名认证拦截器')
           return false // 明确表示允许路由继续执行
         }
         else {

@@ -25,7 +25,6 @@ async function doLogin() {
       username: '菲鸽',
       password: '123456',
     })
-    console.log(redirectUrl.value)
   }
   catch (error) {
     console.log('登录失败', error)
