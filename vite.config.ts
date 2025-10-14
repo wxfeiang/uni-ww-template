@@ -97,15 +97,9 @@ export default defineConfig(({ command, mode }) => {
       },
       UnoCSS(),
       AutoImport({
-        imports: ['vue', 'pinia', 'uni-app', {
-          from: 'wot-design-uni',
-          imports: ['useToast', 'useMessage', 'useNotify', 'CommonUtil'],
-        }, {
-          from: 'alova/client',
-          imports: ['usePagination', 'useRequest'],
-        }],
+        imports: ['vue', 'uni-app'],
         dts: 'src/types/auto-import.d.ts',
-        dirs: ['src/hooks', 'src/store', 'src/utils'], // 自动导入 hooks
+        dirs: ['src/hooks'], // 自动导入 hooks
         vueTemplate: true, // default false
       }),
       ViteRestart({

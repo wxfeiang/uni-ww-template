@@ -16,6 +16,9 @@ export const LOGIN_PAGE_LIST = [LOGIN_PAGE, REGISTER_PAGE]
 // 在 definePage 里面配置了 excludeLoginPath 的页面，功能与 EXCLUDE_LOGIN_PATH_LIST 相同
 export const excludeLoginPathList = getAllPages('excludeLoginPath').map(page => page.path)
 
+export const excludeShiMingPath = getAllPages('excludeShiMingPath').map(page => page.path)
+console.log('🍖[excludeShiMingPath]:', excludeShiMingPath)
+
 // 排除在外的列表，白名单策略指白名单列表，黑名单策略指黑名单列表
 // TODO: 2/3 在 definePage 配置 excludeLoginPath，或者在下面配置 EXCLUDE_LOGIN_PATH_LIST
 export const EXCLUDE_LOGIN_PATH_LIST = [

@@ -5,7 +5,6 @@ import type { IAuthLoginRes } from '@/api/types/login'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue' // 修复：导入 computed
 import {
-  login as _login,
   logout as _logout,
   refreshToken as _refreshToken,
   wxLogin as _wxLogin,
@@ -103,7 +102,10 @@ export const useTokenStore = defineStore(
      */
     const login = async (loginForm: ILoginForm) => {
       try {
-        const res = await _login(loginForm)
+        const res = {
+          token: 'sdcsdcsdc,',
+          expiresIn: 460000,
+        }
         console.log('普通登录-res: ', res)
         await _postLogin(res)
         uni.showToast({

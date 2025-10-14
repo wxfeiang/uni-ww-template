@@ -10,12 +10,13 @@ import { getAllPages, getLastPage, HOME_PAGE, parseUrlToObj } from '@/utils/inde
 import { EXCLUDE_LOGIN_PATH_LIST, isNeedLoginMode, LOGIN_PAGE, LOGIN_PAGE_ENABLE_IN_MP } from './config'
 
 export const FG_LOG_ENABLE = false
-export function judgeIsExcludePath(path: string) {
+export function judgeIsExcludePath(path: string, key = 'excludeLoginPath') {
   const isDev = import.meta.env.DEV
+
   if (!isDev) {
     return EXCLUDE_LOGIN_PATH_LIST.includes(path)
   }
-  const allExcludeLoginPages = getAllPages('excludeLoginPath') // dev 环境下，需要每次都重新获取，否则新配置就不会生效
+  const allExcludeLoginPages = getAllPages(key) // dev 环境下，需要每次都重新获取，否则新配置就不会生效
   return EXCLUDE_LOGIN_PATH_LIST.includes(path) || (isDev && allExcludeLoginPages.some(page => page.path === path))
 }
 
@@ -57,7 +58,15 @@ export const navigateToInterceptor = {
     // 不管黑白名单，登录了就直接去吧（但是当前不能是登录页）
     if (tokenStore.hasLogin) {
       if (path !== LOGIN_PAGE) {
-        return true // 明确表示允许路由继续执行
+        console.log('🍞[path]:', path)
+        console.log('//TODO: 这里处理了登录成功后的逻辑，比如再次拦截验证---')
+        if (judgeIsExcludePath(path, 'excludeShiMingPath')) {
+          console.log('🥝')
+          return false // 明确表示允许路由继续执行
+        }
+        else {
+          return true // 明确表示允许路由继续执行
+        }
       }
       else {
         console.log('已经登录，但是还在登录页', myQuery.redirect)
@@ -101,6 +110,7 @@ export const navigateToInterceptor = {
       // 不需要登录里面的 EXCLUDE_LOGIN_PATH_LIST 表示黑名单，需要重定向到登录页
       if (judgeIsExcludePath(path)) {
         FG_LOG_ENABLE && console.log('2 isNeedLogin(黑名单策略) redirectUrl:', redirectUrl)
+        console.log('//TODO: 这里处理了未登录时的逻辑，弹出提示---')
         uni.navigateTo({ url: redirectUrl })
         return false // 修改为false，阻止原路由继续执行
       }

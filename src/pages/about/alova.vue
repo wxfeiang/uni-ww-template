@@ -3,6 +3,8 @@ import { useRequest } from 'alova/client'
 import { captchaConfig, userInfo } from '@/api/system'
 
 definePage({
+  excludeLoginPath: true,
+  excludeShiMingPath: true,
   style: {
     navigationBarTitleText: 'Alova 演示',
   },
