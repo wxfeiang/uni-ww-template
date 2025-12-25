@@ -24,6 +24,7 @@ export const navigateToInterceptor = {
   // 注意，这里的url是 '/' 开头的，如 '/pages/index/index'，跟 'pages.json' 里面的 path 不同
   // 增加对相对路径的处理，BY 网友 @ideal
   invoke({ url, query }: { url: string, query?: Record<string, string> }) {
+    console.log('🥔[url]:', url)
     if (url === undefined) {
       return
     }
@@ -62,7 +63,7 @@ export const navigateToInterceptor = {
         console.log('//TODO: 这里处理了登录成功后的逻辑，比如再次拦截验证---')
         if (judgeIsExcludePath(path, 'excludeShiMingPath')) {
           console.log('🥝, 这里要实名认证拦截器')
-          return false // 明确表示允许路由继续执行
+          return true // 明确表示允许路由继续执行
         }
         else {
           return true // 明确表示允许路由继续执行
@@ -80,6 +81,7 @@ export const navigateToInterceptor = {
         return false // 明确表示阻止原路由继续执行
       }
     }
+
     let fullPath = path
 
     if (Object.keys(myQuery).length) {
@@ -108,6 +110,7 @@ export const navigateToInterceptor = {
     // #region 2/2 默认不需要登录的情况(黑名单策略) ---------------------------
     else {
       // 不需要登录里面的 EXCLUDE_LOGIN_PATH_LIST 表示黑名单，需要重定向到登录页
+
       if (judgeIsExcludePath(path)) {
         FG_LOG_ENABLE && console.log('2 isNeedLogin(黑名单策略) redirectUrl:', redirectUrl)
         console.log('//TODO: 这里处理了未登录时的逻辑，弹出提示---')

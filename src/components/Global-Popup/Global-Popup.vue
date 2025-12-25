@@ -10,7 +10,6 @@ const { popupOptions, currentPage } = storeToRefs(useGlobalPopup())
 const popup = useGlobalPopup()
 const currentPath = getCurrentPath()
 
-// #endif
 const show = ref(false)
 // 监听全局状态变化
 watch(() => popupOptions.value, (newVal) => {

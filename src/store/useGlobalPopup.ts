@@ -36,6 +36,7 @@ export const useGlobalPopup = defineStore('global-popup', () => {
   }
   const close = () => {
     popupOptions.value = defaultOptions
+    currentPage.value = ''
   }
   return {
     popupOptions,
